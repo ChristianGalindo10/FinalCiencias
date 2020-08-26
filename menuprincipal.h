@@ -178,14 +178,10 @@ void MenuPrincipal::mostrarMenu(Controlador c){
 							cout << "Ingrese el c\xa2" << "digo del estudiante: ";
 							cin >> cod;
 							c.calcularPromedioEstudiante(cod);
-//							cout << "Ingresar algo que permmita saber de que estudiante se desea saber su promedio, puede ser el codigo o algo as\xa1" << endl;
-//							cout << "Ingresar el curso del cual se desea saber el promedio" << endl;
-//							cout << "Mostrar el promedio del estudiante :v" << endl << endl;
 							system("pause");
 							break;
 						case 2:
-							cout << "Ingresar el curso del cual se desea saber el promedio" << endl;
-							cout << "Mostrar el comportamiento promedio de de los estudiantes en los diversos temas" << endl << endl;
+							c.calcularPromedioCurso();
 							system("pause");
 							break;
 						case 3:

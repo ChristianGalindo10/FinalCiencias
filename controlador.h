@@ -260,6 +260,8 @@ class Controlador{
 		
 		void calcularPromedioEstudiante(long long int codigo);
 		
+		void calcularPromedioCurso();
+		
 };
 
 void Controlador::mostrarClases(){
@@ -342,9 +344,7 @@ void Controlador::mostrarListaEstudiantes(Curso c){
 
 void Controlador::calcularPromedioEstudiante(long long int codigo){
 	
-	int pos, aux, cont = 0;
-	vector<float> cal;
-	vector<float> promT;
+	int pos, aux = 0, contador = 0, tema = 1;
 	float prom = 0;
 	
 	for(int i=1;i<=cursos.get_tam();i++){
@@ -361,7 +361,7 @@ void Controlador::calcularPromedioEstudiante(long long int codigo){
 			pos = i;
 			aux = i;
 			cout << "El estudiante buscado es: " << endl;
-			cout<<"C\xa2" << "digo: "<<est.getCodigo()<<" Apellidos: "<<est.getApellidos()<<" Nombres: "<<est.getNombres()<<endl;
+			cout << est.getApellidos() << " " << est.getNombres() << " - " <<est.getCodigo() << endl;
 			profesores.buscar(curso.getProfesor(), &p);
 			cout << "El profesor a cargo es " << p.getNombres() << endl;
 		}
@@ -377,25 +377,87 @@ void Controlador::calcularPromedioEstudiante(long long int codigo){
 						for(int j=1;j<=temas.get_tam();j++){
 							temas.recorrer(j,&t);
 							if(eva.getTema() == t.getCodigo()){
-									
-									cout << eva.getTema() << " " << eva.getNotas()[pos-1] << endl;
-									pos += curso.getListaEstudiantes().get_tam();
-
+								prom += eva.getNotas()[pos-1];
+								contador++;
+								pos += curso.getListaEstudiantes().get_tam();
 							}
-
 						}
+						
 					}
+					prom /= contador;
+					cout << "El promedio en el tema " << tema << " del estudiante es: " << prom;
+					prom = 0;
+					contador = 0;
 					pos = aux;
-					cout << endl << endl;
-
-							
-					
+					aux++;
+					tema++;
+					cout << endl << endl;	
 				}
+				
 			}
 			
 				
 		}
 	
+}
+
+void Controlador::calcularPromedioCurso(){
+	int pos, aux = 0, contador = 0;
+	float prom = 0;
+	
+	for(int i=1;i<=cursos.get_tam();i++){
+		cursos.recorrer(i,&curso);
+		cout<<i<<". "<<curso.getCodigo()<<endl;
+	}
+	cout<<"Digite la posici\xa2n del curso en el cual se encuentra el estudiante: ";
+	cin>>pos;
+	cursos.buscar(pos,&curso);
+	
+	for(int i=1;i<=curso.getListaEstudiantes().get_tam();i++){
+		curso.getListaEstudiantes().recorrer(i,&est);
+		//if(est.getCodigo()==codigo){
+			pos = i;
+			aux = i;
+			
+			profesores.buscar(curso.getProfesor(), &p);
+			cout << "El profesor a cargo es " << p.getNombres() << endl;
+	//	}
+	//}
+		for(int c=1;c<=(p.getListaCorte().get_tam());c++){
+			p.getListaCorte().recorrer(c,&cor);
+			for(int n=1;n<=(cor.getListaNotas().get_tam());n++){
+				cor.getListaNotas().recorrer(n,&nt);
+				for(int cont=1;cont<=(nt.getListaContenedor().get_tam());cont++){
+					nt.getListaContenedor().recorrer(cont,&ct);
+					for(int e=1;e<=(ct.getListaEvaluacion().get_tam());e++){
+						ct.getListaEvaluacion().recorrer(e,&eva);
+						for(int j=1;j<=temas.get_tam();j++){
+							temas.recorrer(j,&t);
+							if(eva.getTema() == t.getCodigo()){
+								cout << eva.getTema() << " " << eva.getNotas()[pos-1] << endl;
+								prom += eva.getNotas()[pos-1];
+								contador++;
+								pos += curso.getListaEstudiantes().get_tam();
+							}
+						}
+						
+					}
+					cout << "El estudiante buscado es: " << endl;
+					cout<<"C\xa2" << "digo: "<<est.getCodigo()<<" Apellidos: "<<est.getApellidos()<<" Nombres: "<<est.getNombres()<<endl;
+					prom /= contador;
+					cout << "El promedio en el tema " << aux << " del estudiante es: " << prom;
+					prom = 0;
+					contador = 0;
+					pos = i;
+					aux++;
+					cout << endl << endl;	
+				}
+				
+			}
+			
+				
+		}
+	}
 }
 
 
