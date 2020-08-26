@@ -1,0 +1,6 @@
+1,Algoritmos
+2,Metodos de busqueda y ordenamiento
+3,Analisis de complejidad
+4,Analisis de algoritmos recursivos
+5,Estructuras lineales
+6,Estructuras jerarquicas
